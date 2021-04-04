@@ -20,18 +20,17 @@ exports.create = (req, res) => {
 
   // Salva no banco de dados a tarefa
   Task.create(task).then(data => {
-    res.send(data);
+    res.send({ message: "Tarefa cadastrada com sucesso" });
   }).catch(err => {
     res.status(500).send({ message: err.message || "Ocorreu um erro enquanto cadastrava sua tarefa" });
   });
 };
 
 exports.findAll = (req, res) => {
-  const title = req.query.title;
-  var condition = title ? { title: { [Op.iLike]: `%${title}%` } } : null;
+  const { id } = req.params;
 
   Task.findAll({
-    where: condition,
+    where: { id_user: id },
     attributes: ['id', 'title', 'priority', 'isConcluded'],
     order: [
       ['createdAt', 'DESC']
