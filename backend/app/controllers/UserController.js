@@ -88,6 +88,19 @@ exports.findAll = (req, res) => {
   });
 };
 
+exports.findOne = (req, res) => {
+  const { id } = req.params;
+
+  User.findOne({
+    where: { id: id },
+    attributes: ['id', 'name', 'email'],
+  }).then(data => {
+    res.send(data);
+  }).catch(err => {
+    res.status(500).send({ message: "Ocorreu um erro enquanto listava seus dados" });
+  });
+};
+
 exports.update = (req, res) => {
   const { id } = req.params;
 
