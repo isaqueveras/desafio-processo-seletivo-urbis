@@ -10,10 +10,10 @@ export function Auth(user) {
     password: user.password
   }).then(function (response) {
     api.defaults.headers.common['x-access-token'] = response.data.token;
-    
     return response;
   }).catch(function (error) {
     console.log(error);
+    return error;
   });
 }
 

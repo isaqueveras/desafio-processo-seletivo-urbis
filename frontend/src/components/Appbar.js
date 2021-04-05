@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbar: {
     paddingLeft: 0,
-  },
+  }
 }));
 
 export default function Appbar({ path, title }) {

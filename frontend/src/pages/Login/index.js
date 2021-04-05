@@ -7,8 +7,10 @@ import {
   CssBaseline, 
   Link, 
   makeStyles, 
+  Snackbar, 
   TextField, 
-  Typography 
+  Typography,
+  Alert
 } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -33,19 +35,50 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Login() {
-  const { Login } = useAuth();
+  const { Login, Logout } = useAuth();
   const classes = useStyles();
   
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [message, setMessage] = useState('');
+  const [openSnackBar, setOpenSnackBar] = useState(false);
 
   async function handleSignIn() {
-    await Login({ email: email, password: password });
+    const response = await Login({ email: email, password: password });
+    if (response != 200) {
+      handleClick();
+      setMessage("Email ou senha invalida");
+      Logout();
+    }
   }
-  
+
+  const handleClick = () => {
+    setOpenSnackBar(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') return;
+    setOpenSnackBar(false);
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        open={openSnackBar}
+        autoHideDuration={2000}
+        onClose={handleClose}
+        message={message}
+        action={
+          <Button color="secondary" size="small" onClick={handleClose}>
+            Fechar
+          </Button>
+        }
+      />
       <div className={classes.paper}>
         <Typography component="h1" variant="h4">
           Urbis

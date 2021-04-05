@@ -20,11 +20,18 @@ export const AuthProvider = ({ children }) => {
   async function Login(user) {
     const response = await conn.Auth(user);
 
-    setUser(response.data);
-    api.defaults.headers['x-access-token'] = response.data.token;
+    if (response.status == 200) {
+      setUser(response.data);
+      api.defaults.headers['x-access-token'] = response.data.token;
 
-    localStorage.setItem('@Urbis:user', JSON.stringify(response.data));
-    localStorage.setItem('@Urbis:token', response.data.token);
+      localStorage.setItem('@Urbis:user', JSON.stringify(response.data));
+      localStorage.setItem('@Urbis:token', response.data.token);
+
+      return response.status
+    } else {
+      Logout();
+    }
+
   }
 
   function Logout() {

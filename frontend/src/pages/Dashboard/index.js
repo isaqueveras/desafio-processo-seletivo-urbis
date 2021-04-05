@@ -13,7 +13,6 @@ import {
   AppBar,
   Toolbar
 } from '@material-ui/core';
-import Appbar from '../../components/Appbar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -92,13 +91,30 @@ export default function Dashboard() {
             <Card variant="outlined">
               <CardContent>
                 <Typography variant="h5" component="h2">
+                  Usuários
+                </Typography> <br/>
+                <Typography variant="body2" component="p">
+                  Veja quem estão cadastrado <br/> no sistema em apenas um clique
+                </Typography>
+                <br/>
+                <Link to="/user">
+                  <Button size="medium" color="primary">Ver usuários</Button>
+                </Link>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item md={4} xs={12} sm={6}>
+            <Card variant="outlined">
+              <CardContent>
+                <Typography variant="h5" component="h2">
                   Meu perfil
                 </Typography> <br/>
                 <Typography variant="body2" component="p">
-                  Gerencie suas tarefas facilmente <br/> com apenas alguns cliques
+                  Gerencie seu perfil <br/> com apenas alguns cliques
                 </Typography>
                 <br/>
-                <Link to="/task">
+                <Link to="/profile">
                   <Button size="medium" color="primary">Ver perfil</Button>
                 </Link>
               </CardContent>

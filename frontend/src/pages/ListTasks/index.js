@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { 
   Button,
-  ButtonGroup,
   Container, 
   makeStyles, 
   Snackbar, 
@@ -11,7 +10,6 @@ import {
   TableContainer, 
   TableHead, 
   TableRow,
-  Typography, 
 } from "@material-ui/core";
 import api from "../../services/api";
 import Appbar from "../../components/Appbar";
@@ -103,8 +101,8 @@ export default function ListTasks() {
           <Link to="/create/task"><Button color="primary" variant="contained" disableElevation>Cadastrar</Button></Link>
           <br/><br/>
 
-          <TableContainer>
-            <Table className={classes.table} aria-label="simple table">
+          <TableContainer style={{ backgroundColor: '#fff' }}>
+            <Table className={classes.table} aria-label="table of tasks">
               <TableHead className={classes.tableHead}>
                 <TableRow>
                   <TableCell>Titulo</TableCell>
