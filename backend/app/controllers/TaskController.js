@@ -46,6 +46,19 @@ exports.findAll = (req, res) => {
   });
 };
 
+exports.findOne = (req, res) => {
+  const { id } = req.params;
+
+  Task.findByPk(id, {
+    where: { id: id },
+    attributes: ['id', 'title', 'priority', 'isConcluded'],
+  }).then(data => {
+    res.send(data);
+  }).catch(err => {
+    res.status(500).send({ message: "Ocorreu um erro enquanto listava a tarefa" });
+  });
+};
+
 exports.update = (req, res) => {
   const { id } = req.params;
 

@@ -5,7 +5,7 @@ module.exports = app => {
   var router = require("express").Router();
   
   router.get('/', [authJwt.verifyToken, authJwt.isUser], user.findAll); // Listar os usuários
-  router.post('/', user.create); // Cadastrar usuário
+  router.post('/', checkDuplicateEmail, user.create); // Cadastrar usuário
   router.post('/signin', user.signIn); // Login do usuário
   router.put('/:id', [authJwt.verifyToken, authJwt.isUser], user.update); // Editar usuário
   router.delete('/:id', [authJwt.verifyToken, authJwt.isUser], user.delete); // Excluir uma usuário
