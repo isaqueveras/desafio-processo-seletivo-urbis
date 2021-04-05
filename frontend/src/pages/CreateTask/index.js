@@ -78,7 +78,11 @@ export default function CreateTask() {
               <TextField id="outlined-basic" value={priority} onChange={event => setPriority(event.target.value)} label="Prioridade" variant="outlined" className={classes.textfildPriority} />
             </Grid>
             <Grid item xs={12} sm={12}>
-              <Button onClick={create} variant="contained" color="primary" disableElevation>Cadastrar</Button>
+              {title && priority !== '' ? (
+                <Button onClick={create} variant="contained" color="primary" disableElevation>Cadastrar</Button>
+              ) : (
+                <Button variant="contained" color="" disableElevation disabled>Cadastrar</Button>
+              )}
             </Grid>
           </Grid>
 

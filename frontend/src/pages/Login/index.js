@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import {useAuth} from '../../contexts/auth';
+import { Link } from 'react-router-dom';
 
 import { 
   Button, 
   Container, 
   CssBaseline, 
-  Link, 
   makeStyles, 
   Snackbar, 
   TextField, 
   Typography,
-  Alert
 } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -30,8 +29,8 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     padding: theme.spacing(1.5),
-    margin: theme.spacing(3, 0, 2),
-  },
+    margin: theme.spacing(2, 0, 2),
+  }
 }));
 
 export default function Login() {
@@ -45,7 +44,7 @@ export default function Login() {
 
   async function handleSignIn() {
     const response = await Login({ email: email, password: password });
-    if (response != 200) {
+    if (response !== 200) {
       handleClick();
       setMessage("Email ou senha invalida");
       Logout();
@@ -112,19 +111,34 @@ export default function Login() {
             onChange={event => setPassword(event.target.value)}
           />
           
-          <Button
-            onClick={handleSignIn}
-            margin="normal"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Entrar
-          </Button>
+          {email && password !== '' ? (
+            <Button
+              onClick={handleSignIn}
+              margin="normal"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              disableElevation
+            >
+              Entrar
+            </Button>
+          ) : (
+            <Button
+              margin="normal"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              disableElevation
+              disabled
+            >
+              Preenche os dados
+            </Button>
+          )}
 
-          <Link href="#" variant="body2">
-            {"Ainda não tem uma conta? crie aqui"}
+          <Link to="/create" variant="body2">
+            Ainda não tem uma conta? crie aqui   
           </Link>
         </form>
       </div>

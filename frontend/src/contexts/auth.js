@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
   async function Login(user) {
     const response = await conn.Auth(user);
 
-    if (response.status == 200) {
+    if (response.status === 200) {
       setUser(response.data);
       api.defaults.headers['x-access-token'] = response.data.token;
 

@@ -1,46 +1,72 @@
-import { Button, Container, Grid, makeStyles, Paper, Snackbar, TextField } from "@material-ui/core";
-import { useState } from "react";
-import Appbar from "../../components/Appbar";
-import { useAuth } from "../../contexts/auth";
-import api from "../../services/api";
+import React, { useState } from 'react';
+import {useAuth} from '../../contexts/auth';
+import { Link } from "react-router-dom";
+
+import { 
+  Button, 
+  Container, 
+  CssBaseline, 
+  makeStyles, 
+  Snackbar, 
+  TextField, 
+  Typography,
+} from '@material-ui/core';
+import api from '../../services/api';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    padding: '25px 16px',
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
-  textfildTitle: {
-    marginRight: 15, width: '100%' 
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
   },
-  textfildPriority: {
-    width: '100%'
+  form: {
+    width: '100%',
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    padding: theme.spacing(1.5),
+    margin: theme.spacing(2, 0, 2),
+  },
+  textcenter: {
+    textAlign: 'center',
+    fontSize: 16
   }
 }));
 
 export default function CreateUser() {
-  const { user } = useAuth();
+  const { Login, Logout } = useAuth();
   const classes = useStyles();
-
-  const [title, setTitle] = useState('');
-  const [priority, setPriority] = useState('');
+  
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [message, setMessage] = useState('');
   const [openSnackBar, setOpenSnackBar] = useState(false);
 
-  function create() {
-    api.post('/user/', { 
-      title: title, priority: priority, id_user: user.id, isConcluded: false
+  function handleSignIn() {
+    api.post('/user', {
+      name: name,    
+      email: email,    
+      password: password,    
     }).then(res => {
       handleClick();
-      setMessage(res.data.message);
+      if (res.status === 200) setMessage("Conta criada com sucesso! entre com seus dados");
+      setName('');
+      setEmail('');
+      setPassword('');
     }).catch(error => {
-      console.log(error);
-      setMessage(error);
+      handleClick();
+      setMessage("Não foi possivel cadastrar sua conta! tente novamente");
     });
   }
-  
+
   const handleClick = () => {
     setOpenSnackBar(true);
-    setTitle('')
-    setPriority('')
   };
 
   const handleClose = (event, reason) => {
@@ -49,8 +75,8 @@ export default function CreateUser() {
   };
 
   return (
-    <div>
-      <Appbar path="/user" title="Cadastrar usuário" />
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
       <Snackbar
         anchorOrigin={{
           vertical: 'bottom',
@@ -66,24 +92,81 @@ export default function CreateUser() {
           </Button>
         }
       />
-
-      <Container maxWidth="md"> <br/>
-        <Paper elevation={0} className={classes.paper} variant="outlined">
+      <div className={classes.paper}>
+        <Typography component="h1" variant="h4">
+          Urbis
+        </Typography>
+        <Typography className={classes.textcenter} component="h1" variant="h5">
+          Crie uma conta para você gerenciar suas tarefas
+        </Typography>
+        <form className={classes.form}>
+         <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="name"
+            label="Nome"
+            autoComplete="email"
+            autoFocus
+            value={name} 
+            onChange={event => setName(event.target.value)}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email"
+            autoComplete="email"
+            value={email} 
+            onChange={event => setEmail(event.target.value)}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            label="Senha"
+            type="password"
+            id="password"
+            required
+            autoComplete="current-password"
+            value={password} 
+            onChange={event => setPassword(event.target.value)}
+          />
+          {name && email && password != '' ? (
+            <Button
+              onClick={handleSignIn}
+              margin="normal"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              disableElevation
+            >
+              Criar minha conta
+            </Button>
+          ) : (
+            <Button
+              margin="normal"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              disableElevation
+              disabled
+            >
+              Criar minha conta
+            </Button>
+          )}
           
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={8}>
-              <TextField id="outlined-basic" value={title} onChange={event => setTitle(event.target.value)} label="Titulo da tarefa" variant="outlined" className={classes.textfildTitle} />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField id="outlined-basic" value={priority} onChange={event => setPriority(event.target.value)} label="Prioridade" variant="outlined" className={classes.textfildPriority} />
-            </Grid>
-            <Grid item xs={12} sm={12}>
-              <Button onClick={create} variant="contained" color="primary" disableElevation>Cadastrar</Button>
-            </Grid>
-          </Grid>
 
-        </Paper>
-      </Container>
-    </div>
+          <Link to="/" variant="body2">
+            {"Já tem uma conta? entre aqui"}
+          </Link>
+        </form>
+      </div>
+    </Container>
   );
 }

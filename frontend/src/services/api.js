@@ -12,7 +12,6 @@ export function Auth(user) {
     api.defaults.headers.common['x-access-token'] = response.data.token;
     return response;
   }).catch(function (error) {
-    console.log(error);
     return error;
   });
 }
