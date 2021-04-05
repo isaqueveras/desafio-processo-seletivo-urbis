@@ -68,7 +68,6 @@ export default function ListTasks() {
   }
 
   function deleteTask(id) {
-    console.log("Delete: " + id);
     api.delete('/task/'+ id).then(res => {
       handleClick();
       setMessage(res.data.message);

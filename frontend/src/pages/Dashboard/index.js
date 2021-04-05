@@ -68,7 +68,7 @@ export default function Dashboard() {
             <h1>Seja bem vindo, {user.name}!</h1>
           </Grid>
 
-          <Grid item md={4} xs={4}>
+          <Grid item md={4} xs={12} sm={6}>
             <Card variant="outlined">
               <CardContent>
                 <Typography variant="h5" component="h2">
@@ -88,7 +88,7 @@ export default function Dashboard() {
             </Card>
           </Grid>
 
-          <Grid item md={4} xs={4}>
+          <Grid item md={4} xs={12} sm={6}>
             <Card variant="outlined">
               <CardContent>
                 <Typography variant="h5" component="h2">
