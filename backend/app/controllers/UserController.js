@@ -1,7 +1,7 @@
 var bcrypt = require("bcryptjs");
 var jwt = require("jsonwebtoken");
 
-const config = require("../config/Authentication");
+require('dotenv').config();
 const db = require("../models");
 const Op = db.Sequelize.Op;
 
@@ -22,7 +22,7 @@ exports.create = (req, res) => {
 
   // Salva no banco de dados o usuário
   User.create(user).then(data => {
-    res.send(data);
+    res.send({ message: "Conta criada com sucesso!" });
   }).catch(err => {
     res.status(500).send({ message: err.message || "Desculpe, ocorreu um error enquanto criava o usuário" });
   });
@@ -50,8 +50,8 @@ exports.signIn = (req, res) => {
       });
     }
 
-    var token = jwt.sign({ id: user.id }, config.secret, {
-      expiresIn: 86400 // 24 horas
+    var token = jwt.sign({ id: user.id }, process.env.TOKEN_KEY_SECRET, {
+      expiresIn: 432000 // 5 dias
     });
 
     res.status(200).send({
